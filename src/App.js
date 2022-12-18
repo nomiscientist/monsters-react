@@ -1,36 +1,57 @@
 import { Component } from 'react';
-
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
 
-  constructor(){
+  constructor() {
     super();
 
     this.state = {
-      name: { firstname: 'Ehti', lastname: 'Boy'}
+      profiles: [],
+      searchField: ''
     }
+    console.log('constructor');
   }
 
-  render(){
+  componentDidMount() {
+    console.log('componentDidMount');
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((responses) => responses.json())
+      .then((users) => this.setState(() => {
+        return { profiles: users }
+      }, () => {
+        console.log(this.state.profiles);
+      }
+      ));
+  }
+
+  render() {
+    console.log('render');
+
+    const filteredprofiles = this.state.profiles.filter(
+      profile => profile.name.toLocaleLowerCase().includes(this.state.searchField));
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>{this.state.name.firstname} {this.state.name.lastname}</p>
-          <button onClick={() => {
-            this.setState(()=>{
-              return {name: {firstname: 'Arooba', lastname: 'Faisal'}};
-            },()=>{
-              console.log(this.state.name);
-            });
-          }}>Change Name</button>
-        </header>
+        <input className='search' type='search' placeholder='search profiles'
+          onChange={(event) => {
+            const searchField = event.target.value;
+            this.setState({ searchField });
+          }
+          }
+        />
+
+        {
+          filteredprofiles.map((profile) => {
+            return (<div key={profile.id}>
+              <h1>{profile.name}</h1></div>)
+          })
+        }
       </div>
     );
   }
-  
+
 }
 
 export default App;
