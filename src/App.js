@@ -46,6 +46,8 @@ class App extends Component {
 
     return (
       <div className="App">
+
+        <h1 className='app-title' >Profiles Dashboard</h1>
         
         <SearchBox 
           className='search-profiles'

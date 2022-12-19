@@ -1,5 +1,8 @@
 import { Component } from "react";
 
+import Card from "../card/card.component";
+import './card-list.styles.css';
+
 class CardList extends Component {
 
     render() {
@@ -7,11 +10,13 @@ class CardList extends Component {
         const { profiles } = this.props;
 
         return (
-            profiles.map((profile) => {
-                return (<div key={profile.id}>
-                    <h1>{profile.name}</h1></div>)
-            })
-        )
+            <div className="card-list" >
+                {
+                    profiles.map((profile) => (<Card profile={profile} />))
+                }
+            </div>
+
+        );
     }
 }
 
