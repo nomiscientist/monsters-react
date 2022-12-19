@@ -1,4 +1,8 @@
 import { Component } from 'react';
+
+import CardList from './components/cards-list/card-list.component';
+import SearchBox from './components/search-box/search-box.component';
+
 import './App.css';
 
 class App extends Component {
@@ -26,28 +30,29 @@ class App extends Component {
       ));
   }
 
+  onSearchChange = (event) => {
+    const searchField = event.target.value;
+    this.setState({ searchField });
+  }
+
   render() {
     console.log('render');
 
-    const filteredprofiles = this.state.profiles.filter(
-      profile => profile.name.toLocaleLowerCase().includes(this.state.searchField));
+    const { profiles, searchField } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredprofiles = profiles.filter(
+      profile => profile.name.toLocaleLowerCase().includes(searchField));
 
     return (
       <div className="App">
-        <input className='search' type='search' placeholder='search profiles'
-          onChange={(event) => {
-            const searchField = event.target.value;
-            this.setState({ searchField });
-          }
-          }
+        
+        <SearchBox 
+          className='search-profiles'
+          placeholder='search profiles'
+          onSearchChange={onSearchChange}
         />
-
-        {
-          filteredprofiles.map((profile) => {
-            return (<div key={profile.id}>
-              <h1>{profile.name}</h1></div>)
-          })
-        }
+        <CardList profiles = {filteredprofiles} />
       </div>
     );
   }
