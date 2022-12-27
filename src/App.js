@@ -10,6 +10,7 @@ const App = () => {
   const [searchField, setSearchField] = useState('');
   const [profiles, setProfiles] = useState([]);
   const [filteredprofiles, setFilteredProfiles] = useState(profiles);
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -30,22 +31,31 @@ const App = () => {
     setSearchField(searchFieldString);
   }
 
-
+  const onTitleChange = (event) => {
+    const titleFieldString = event.target.value;
+    setTitle(titleFieldString);
+  }
 
   return (
     <div className="App">
-      <h1 className='app-title'>Profiles Dashboard</h1>
+      <h1 className='app-title'>{title}</h1>
+
       <SearchBox
         className='search-profiles'
         placeholder='search profiles'
         onSearchChange={onSearchChange}
       />
+      <br/>
+
+      <SearchBox
+        className='change-title'
+        placeholder='change title'
+        onSearchChange={onTitleChange}
+      />
 
       <CardList profiles={filteredprofiles} />
 
     </div>
-
-
   );
 }
 
